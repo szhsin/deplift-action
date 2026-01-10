@@ -33,6 +33,10 @@ inputs:
     description: "Committer name and email"
     required: false
     default: "Zheng Song <41896553+szhsin@users.noreply.github.com>"
+  commit-message:
+    description: "Commit message"
+    required: false
+    default: "chore(deps): update all dependencies"
 
 runs:
   using: "composite"
@@ -45,11 +49,17 @@ runs:
       with:
         node-version: ${{ inputs['node-version'] }}
 
-    - run: npx --yes deplift@latest
+    - name: Run deplift
+      run: npx --yes deplift@latest
+      shell: bash
 
-    - run: npm test
+    - name: Run Tests
+      run: npm test
+      shell: bash
 
-    - run: npm run build
+    - name: Run Build
+      run: npm run build
+      shell: bash
 
     - name: Create Pull Request
       uses: peter-evans/create-pull-request@v8
@@ -58,5 +68,5 @@ runs:
         title: ${{ inputs['pr-title'] }}
         body: ${{ inputs['pr-body'] }}
         committer: ${{ inputs.committer }}
+        commit-message: ${{ inputs['commit-message'] }}
         labels: ${{ inputs.labels }}
-        token: ${{ secrets.GITHUB_TOKEN }}
