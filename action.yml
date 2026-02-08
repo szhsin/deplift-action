@@ -50,7 +50,7 @@ runs:
         node-version: ${{ inputs['node-version'] }}
 
     - name: Run deplift
-      run: npx --yes deplift@latest
+      run: npx --yes deplift@latest --major eslint=9
       shell: bash
 
     - name: Run Tests
@@ -76,12 +76,12 @@ runs:
 
           ---
           ⚠️ **Tests Failed**
-          The tests failed. Please review and fix before merging.' || '' }}
+          Please review and fix before merging.' || '' }}
           ${{ steps.build.outcome == 'failure' && '
 
           ---
           ⚠️ **Build Failed**
-          The build failed. Please review and fix before merging.' || '' }}
+          Please review and fix before merging.' || '' }}
         committer: ${{ inputs.committer }}
         commit-message: ${{ inputs['commit-message'] }}
         labels: ${{ inputs.labels }}${{ (steps.tests.outcome == 'failure' || steps.build.outcome == 'failure') && ', needs-fix' || '' }}
