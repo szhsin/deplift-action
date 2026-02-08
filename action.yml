@@ -50,7 +50,7 @@ runs:
         node-version: ${{ inputs['node-version'] }}
 
     - name: Run deplift
-      run: npx --yes deplift@latest --major eslint=9
+      run: npx --yes deplift@latest --major eslint=9 --major @eslint/js=9
       shell: bash
 
     - name: Run Tests
