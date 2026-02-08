@@ -54,19 +54,34 @@ runs:
       shell: bash
 
     - name: Run Tests
+      id: tests
       run: npm test
       shell: bash
+      continue-on-error: true
 
     - name: Run Build
+      id: build
       run: npm run build
       shell: bash
+      continue-on-error: true
 
     - name: Create Pull Request
       uses: peter-evans/create-pull-request@v8
       with:
         branch: ${{ inputs.branch }}
         title: ${{ inputs['pr-title'] }}
-        body: ${{ inputs['pr-body'] }}
+        body: |
+          ${{ inputs['pr-body'] }}
+          ${{ steps.tests.outcome == 'failure' && '
+
+          ---
+          ⚠️ **Tests Failed**
+          The tests failed. Please review and fix before merging.' || '' }}
+          ${{ steps.build.outcome == 'failure' && '
+
+          ---
+          ⚠️ **Build Failed**
+          The build failed. Please review and fix before merging.' || '' }}
         committer: ${{ inputs.committer }}
         commit-message: ${{ inputs['commit-message'] }}
-        labels: ${{ inputs.labels }}
+        labels: ${{ inputs.labels }}${{ (steps.tests.outcome == 'failure' || steps.build.outcome == 'failure') && ', needs-fix' || '' }}
