@@ -85,3 +85,4 @@ runs:
         committer: ${{ inputs.committer }}
         commit-message: ${{ inputs['commit-message'] }}
         labels: ${{ inputs.labels }}${{ (steps.tests.outcome == 'failure' || steps.build.outcome == 'failure') && ', needs-fix' || '' }}
+        draft: ${{ (steps.tests.outcome == 'failure' || steps.build.outcome == 'failure') && 'always-true' || 'false' }}
