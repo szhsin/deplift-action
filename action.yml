@@ -50,7 +50,12 @@ runs:
         node-version: ${{ inputs['node-version'] }}
 
     - name: Run deplift
-      run: npx --yes deplift@latest
+      run: |
+        npx --yes deplift@latest \
+          --major @babel/core=7 \
+          --major @babel/preset-env=7 \
+          --major @babel/preset-react=7 \
+          --major @babel/preset-typescript=7
       shell: bash
 
     - name: Run Tests
