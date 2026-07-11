@@ -55,7 +55,8 @@ runs:
           --major @babel/core=7 \
           --major @babel/preset-env=7 \
           --major @babel/preset-react=7 \
-          --major @babel/preset-typescript=7
+          --major @babel/preset-typescript=7 \
+          --major typescript=6
       shell: bash
 
     - name: Run Tests
